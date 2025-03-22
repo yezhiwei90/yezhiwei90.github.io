@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* 基础样式 */
+.slider-container {
+    width: 100vw;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 -50px; /* 抵消页面边距 */
+}
+
+.slider-track {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    padding: 0 50px; /* 创建边缘缓冲 */
+}
+
+.slide-item {
+    flex: 0 0 auto;
+    width: 400px;
+    height: 100%;
+    background: #f0f0f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+/* 交互状态 */
+.slide-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    z-index: 2;
+}
+
+.slide-item:hover img {
+    transform: scale(2.6);
+}
+
+/* 渐变边缘指示 */
+.slider-container::before,
+.slider-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.slider-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,1) 20%, rgba(255,255,255,0));
+}
+
+.slider-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,1) 20%, rgba(255,255,255,0));
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .slide-item {
+        width: 300px;
+    }
+    
+    .slider-container::before,
+    .slider-container::after {
+        width: 50px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="slider-container" id="sliderContainer">
+    <div class="slider-track" id="sliderTrack">
+        <div class="slide-item"><img src="image1.jpg" alt=""></div>
+        <div class="slide-item"><img src="image2.jpg" alt=""></div>
+        <div class="slide-item"><img src="image3.jpg" alt=""></div>
+        <div class="slide-item"><img src="image4.jpg" alt=""></div>
+        <div class="slide-item"><img src="image5.jpg" alt=""></div>
+    </div>
+</div>
+
+<script>
+class Slider {
+    constructor(container, track) {
+        this.container = container;
+        this.track = track;
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationID = 0;
+        this.slides = Array.from(track.children);
+
+        // 初始化滑动限制
+        this.maxTranslate = 0;
+        this.minTranslate = -(
+            track.scrollWidth - 
+            container.offsetWidth + 
+            parseInt(getComputedStyle(track).paddingLeft) * 2
+        );
+
+        // 事件监听
+        this.track.addEventListener('mousedown', this.startDrag.bind(this));
+        this.track.addEventListener('touchstart', this.startDrag.bind(this));
+        window.addEventListener('mouseup', this.endDrag.bind(this));
+        window.addEventListener('touchend', this.endDrag.bind(this));
+        window.addEventListener('mousemove', this.drag.bind(this));
+        window.addEventListener('touchmove', this.drag.bind(this));
+        
+        // 优化动画
+        this.track.style.transition = 'none';
+    }
+
+    startDrag(e) {
+        this.isDragging = true;
+        this.startX = this.getX(e);
+        this.track.style.cursor = 'grabbing';
+        cancelAnimationFrame(this.animationID);
+    }
+
+    drag(e) {
+        if (!this.isDragging) return;
+        e.preventDefault();
+        
+        const currentX = this.getX(e);
+        const movedBy = currentX - this.startX;
+        const nextTranslate = this.prevTranslate + movedBy;
+        
+        // 边界限制
+        if (nextTranslate > this.maxTranslate) {
+            this.currentTranslate = this.maxTranslate - 
+                Math.pow(nextTranslate - this.maxTranslate, 0.8);
+        } else if (nextTranslate < this.minTranslate) {
+            this.currentTranslate = this.minTranslate + 
+                Math.pow(this.minTranslate - nextTranslate, 0.8);
+        } else {
+            this.currentTranslate = nextTranslate;
+        }
+        
+        this.updateSlider();
+    }
+
+    endDrag() {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        this.prevTranslate = this.currentTranslate;
+        this.track.style.cursor = 'grab';
+        
+        // 弹性回弹效果
+        if (this.currentTranslate > this.maxTranslate) {
+            this.animateBack(this.maxTranslate);
+        } else if (this.currentTranslate < this.minTranslate) {
+            this.animateBack(this.minTranslate);
+        }
+    }
+
+    animateBack(target) {
+        const step = () => {
+            const diff = target - this.currentTranslate;
+            if (Math.abs(diff) > 0.5) {
+                this.currentTranslate += diff * 0.1;
+                this.updateSlider();
+                this.animationID = requestAnimationFrame(step);
+            } else {
+                this.currentTranslate = target;
+                this.updateSlider();
+            }
+        };
+        step();
+    }
+
+    updateSlider() {
+        this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+        
+        // 视差效果
+        this.slides.forEach((slide, index) => {
+            const speed = index % 2 ? 0.1 : 0.15;
+            slide.style.transform = `translateX(${this.currentTranslate * speed}px)`;
+        });
+    }
+
+    getX(e) {
+        return e.type.includes('touch') ? 
+            e.touches[0].clientX : 
+            e.clientX;
+    }
+}
+
+// 初始化
+const slider = new Slider(
+    document.getElementById('sliderContainer'),
+    document.getElementById('sliderTrack')
+);
+
+// 窗口大小变化时重置限制
+window.addEventListener('resize', () => {
+    slider.maxTranslate = 0;
+    slider.minTranslate = -(
+        slider.track.scrollWidth - 
+        slider.container.offsetWidth + 
+        parseInt(getComputedStyle(slider.track).paddingLeft) * 2
+    );
+});
+</script>
+
+</body>
+</html>

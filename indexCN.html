@@ -111,13 +111,22 @@
 /* the code to obtain dynamics of softwares*/
 						#stackContainer {
 						  position: relative;
-						  width: 100%;
+						  width: 94vw;
 						  min-height: 800px;
 						  margin: 200px 0;
 			  			  position:relative;
 			  			  gap:calc(1% + 5px);
 			            display: flex; 
 			            flex-direction: row; 
+			              overflow: hidden; /* 允许横向滚动 */
+						  -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
+						  flex-wrap: nowrap; /* 禁止换行 */
+						  scrollbar-width: none; /* Firefox隐藏滚动条 */
+						}
+
+						/* 隐藏所有浏览器滚动条 */
+						#stackContainer::-webkit-scrollbar {
+						  display: none;
 						}
 
 						.dynamic-stacked {
@@ -134,10 +143,12 @@
 						/* 图片+文字容器 */
 						.stack-card {
 						  position: relative;
+						  scroll-snap-align: center; /* 滚动吸附点 */
 						  display: flex; /* Use flexbox for vertical stacking */  
 						  flex-direction: column; /* Stack children vertically */  
 						  align-items: center; /* Center align content */  
-						  transition: inherit;
+						  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              					transform 0.3s linear; /* 添加transform过渡 */
 						}
 
 						/* 文字说明容器 */
@@ -529,7 +540,7 @@
 		background-repeat:no-repeat;
 		background-size:cover;" id="Softwares">
 			<div style="width:6%"></div>
-			<div>
+			<div style="width:94%">
 				<h2 class="Wtext">计算工具</h2>
 				<p class="Wtext">我们开发了一系列面向单分子荧光的解析算法和软件，构筑了单分子分析平台。</p>
 				<p class="Wtext">部分算法已经开源，<a href="https://github.com/yezhiwei90/ReconstructionTest" target="_blank" class="lliink" style="padding:0;display:inline">详情可点击</a></p>
@@ -636,10 +647,12 @@
 	   		 // Add hover event listeners  
 	        imgElem.addEventListener('mouseenter', function() {  
 	            card.style.zIndex = 999; // Change z-index on hover  
+	            stackimgcontainer.style.overflow = 'visible';
 	        });  
 
 	        imgElem.addEventListener('mouseleave', function() {  
 	            card.style.zIndex = index; // Reset z-index on mouse leave  
+	            stackimgcontainer.style.overflow = 'scroll';
 	        });  
 	        stackimgcontainer.appendChild(card);
 			});
