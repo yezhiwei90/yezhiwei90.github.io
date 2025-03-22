@@ -1,0 +1,65 @@
+<div class="dynamic-stack" id="stackContainer"></div>
+	<script>  
+			const stackimages = [
+			  './Resources/Soft/1.png', './Resources/Soft/2.png', './Resources/Soft/3.PNG', 
+			  './Resources/Soft/4.png', './Resources/Soft/5.png', './Resources/Soft/6.png'
+			  // 添加更多图片路径...
+			];
+
+			const stackimgcontainer = document.getElementById('stackContainer');
+
+			stackimages.forEach((img, index) => {
+			  const imgElem = document.createElement('img');
+			  imgElem.src = img;
+			  imgElem.className = 'dynamic-stacked';
+  
+
+			// 生成随机参数
+			const rotate = (Math.random() * 10 - 5).toFixed(1); // -5° ~ +5°
+			const xOffset = (Math.random() * 80 - 40).toFixed(1); // -40px ~ +40px
+			const yOffset = (Math.random() * 60 - 30).toFixed(1); // -30px ~ +30px
+			const width = 180 + Math.random() * 80; // 180px ~ 260px
+
+			imgElem.style.cssText = `
+			--rotate: ${rotate}deg;
+			--x-offset: ${xOffset}px;
+			--y-offset: ${yOffset}px;
+			width: ${width}px;
+			z-index: ${index};
+			left: ${30 + index * 10}px;
+			top: ${20 + index * 15}px;
+			`;
+
+			stackimgcontainer.appendChild(imgElem);
+</script>
+
+<style>
+							#stackContainer {
+						  position: relative;
+						  width: 100%;
+						  min-height: 800px;
+						  margin: 20px 0;
+						}
+
+						.dynamic-stacked {
+						  position: absolute;
+						  transform: 
+						    translateX(calc(var(--x-offset) * 1.5))
+						    translateY(calc(var(--y-offset) * 1.5))
+						    rotate(var(--rotate));
+						  filter: drop-shadow(8px 8px 20px rgba(0,0,0,0.2));
+						  opacity: 0.9;
+						  transition: all 0.3s;
+						}
+
+						.dynamic-stacked:hover {
+						  transform: 
+						    translateX(calc(var(--x-offset) * 0.8))
+						    translateY(calc(var(--y-offset) * 0.8))
+						    rotate(calc(var(--rotate) * 0.5))
+						    scale(1.1);
+						  opacity: 1;
+						  z-index: 999;
+						}
+					</style>
+

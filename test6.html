@@ -1,0 +1,97 @@
+<style>
+/* 新增文字样式 */
+.dynamic-stacked {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 图片+文字容器 */
+.stack-card {
+  position: relative;
+  display: inline-block;
+  transition: inherit;
+}
+
+/* 文字说明容器 */
+.image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: white;
+  padding: 20px 10px 10px;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: 
+    opacity 0.2s,
+    padding 0.3s;
+}
+
+/* 悬停时同步放大 */
+.dynamic-stacked:hover {
+  transform: scale(2.6);
+  z-index: 999;
+}
+
+.dynamic-stacked:hover .image-caption {
+  opacity: 1;
+  padding: 30px 15px 15px;
+  font-size: calc(0.8em * 2.6); /* 文字同步放大 */
+}
+</style>
+
+<div class="dynamic-stack" id="stackContainer">
+
+</div>
+
+<script>
+const stackimages = [
+  { 
+    src: './Resources/Soft/1.png',
+    caption: '单分子分析软件<br>支持多通道荧光追踪'
+  },
+  {
+    src: './Resources/Soft/2.png',
+    caption: '超分辨渲染系统<br>3D 点云可视化'
+  },
+  // 其他图片数据...
+];
+
+const stackimgcontainer = document.getElementById('stackContainer');
+
+stackimages.forEach((item, index) => {
+  // 创建卡片容器
+  const card = document.createElement('div');
+  card.className = 'stack-card';
+  card.style.cssText = `
+    z-index: ${index};
+    height: 130px;
+  `;
+
+  // 添加图片
+  const img = document.createElement('img');
+  img.src = item.src;
+  img.className = 'dynamic-stacked';
+  
+  // 添加文字说明
+  const caption = document.createElement('div');
+  caption.className = 'image-caption';
+  caption.innerHTML = item.caption;
+
+  // 组装元素
+  card.appendChild(img);
+  card.appendChild(caption);
+  stackimgcontainer.appendChild(card);
+
+  // 悬停事件
+  card.addEventListener('mouseenter', function() {
+    this.style.zIndex = 999;
+  });
+  
+  card.addEventListener('mouseleave', function() {
+    this.style.zIndex = index;
+  });
+});
+</script>

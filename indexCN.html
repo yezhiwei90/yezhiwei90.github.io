@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>荧光成像课题组</title>
+	<title>超微荧光成像课题组</title>
 	<style type="text/css">
         ::selection {  
             background: transparent; /* Make the selection background transparent */  
@@ -63,7 +63,7 @@
 
 						  .drag-tip span {
 						    background: rgba(0,0,0,0.7);
-						    color: white;
+						    color: rgb(245,125,100);
 						    padding: 4px 8px;
 						    border-radius: 4px;
 						    font-size: clamp(0.5rem, 0.8vw + 0.5rem, 4rem);
@@ -108,7 +108,63 @@
 						    opacity: 1;
 						    transform: translateX(-50%) translateY(-8px);
 						  }
+/* the code to obtain dynamics of softwares*/
+						#stackContainer {
+						  position: relative;
+						  width: 100%;
+						  min-height: 800px;
+						  margin: 200px 0;
+			  			  position:relative;
+			  			  gap:calc(1% + 5px);
+			            display: flex; 
+			            flex-direction: row; 
+						}
 
+						.dynamic-stacked {
+						 position: relative;
+						  filter: drop-shadow(8px 8px 20px rgba(0,0,0,0.2));
+						  opacity: 0.9;
+						  cursor: pointer;
+						  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+						  height:auto;
+						  object-fit: cover
+						}
+
+						/* 新增文字样式 */
+						/* 图片+文字容器 */
+						.stack-card {
+						  position: relative;
+						  display: flex; /* Use flexbox for vertical stacking */  
+						  flex-direction: column; /* Stack children vertically */  
+						  align-items: center; /* Center align content */  
+						  transition: inherit;
+						}
+
+						/* 文字说明容器 */
+						.image-caption {
+						  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+						  color: white;
+						  padding: 5px 10px 10px;
+						  font-size: 0.8em;
+						  opacity: 0.9;
+						  transition: 
+						    opacity 0.2s,
+						    padding 0.3s;
+						}
+
+						.stack-card:hover .dynamic-stacked {
+							z-index: 999;
+						  transform: 
+						    scale(2.6);
+						  opacity: 1;
+						}
+
+						.stack-card:hover .image-caption {
+						  opacity: 1;
+					    	width: calc(100% * 2.6); /* 与图片缩放比例同步 */
+  							transform: translateX(25%) translateY(150%); /* 保持居中并下移 */
+						  font-size: calc(0.8em * 1.5); /* 文字同步放大 */
+						}
 				.bodyback {
 					margin: 0;
 					padding: 0;
@@ -221,12 +277,12 @@
 
 
 			<div class="divNorm">
-				<h1 class="Wtext" style="margin:0px;padding:20px;" id="home">欢迎访问超微荧光成像课题组</h1>
+				<h1 class="Wtext" style="margin:0px;padding:20px;">欢迎访问超微荧光成像课题组</h1>
 			</div>
 			<div class="divnav" style="display:flex;align-items:around;background-color:rgba(0,0,21,0.8)">
 				<!--navigation bar -->
 				<div style="width:7%"></div>
-				<div style="width:1200px" id="Education">
+				<div style="width:1200px">
 					<ul class="ulnav" style="padding-left:200px;">
 						<li class = "linav">
 							<a href="indexCN.html#home" class = "lliink">主页</a>
@@ -247,7 +303,10 @@
 							<a href="indexCN.html#Projects" class = "lliink">项目</a>
 						</li>
 						<li class = "linav">
-							<a href="indexCN.html#Conferences" class = "lliink">会议摘要集</a>
+							<a href="indexCN.html#Softwares" class = "lliink">计算工具</a>
+						</li>
+						<li class = "linav">
+							<a href="indexCN.html#Conferences" class = "lliink">会议</a>
 						</li>
 						<li class = "linav">
 							<a href="indexCN.html#Applicants" class = "lliink">申请须知</a>
@@ -260,26 +319,28 @@
 				<div style="width:7%"></div>
 				</div>
 		<div style="position: relative;">
-			<div class="slidecontainer" style="position: relative;width:100%;display:flex;flex-direction:column;height:auto;">
-			    <div class="slideimage" id="image1" alt="Image 1" style="position: relative;margin:0px;padding:0px;width:100%;;">  
-			        <img src="./Resources/ZWide-Field-RGB-CLP.jpg" alt="Image 1">  
+			<div class="slidecontainer" style="position: relative;width:100%;display:flex;flex-direction:column;height:auto;"  id="home">
+			    <div class="slideimage" id="image1" style="position: relative;margin:0px;padding:0px;width:100%;">  
+			        <img src="./Resources/ZWide-Field-RGB-CLP.jpg" alt="Image 1" >  
+		    		<div style="position:absolute;bottom:10%;left:8%;width:auto;height:auto;"><p style="color:white;font-size:clamp(0.5rem, 0.8vw + 0.5rem, 4rem); background: rgba(0,0,0,0.7); border-radius: 4px; ">传统远场显微成像</p> </div>
 			    </div>  
-			    <div class="slideimage" id="image2" alt="Image 2" style="position: absolute;top: 0;left: 0;margin:0px;padding:0px;width:100%;"> 
+			    <div class="slideimage" id="image2" style="position: absolute;top: 0;left: 0;margin:0px;padding:0px;width:100%;"> 
 			        <img src="./Resources/ZindexedSR-CLP.jpg" alt="Image 2">  
+					<div class="divCom" style="position: absolute; top: 0;width: 100%;  height: 100%; background-image: linear-gradient(...);pointer-events: none;display: flex;align-items: center;justify-content: center;text-align: center;">
+						<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);  font-size: clamp(1.5rem, 4vw + 1rem, 3rem);"> 探索分子世界的奥秘！</h2>
+					</div>
+			        <div style="position:absolute;bottom:10%;left:8%;width:auto;height:auto;"><p style="color:white;font-size:clamp(0.5rem, 0.8vw + 0.5rem, 4rem);   background: rgba(0,0,0,0.7); border-radius: 4px; ">超分辨显微成像</p> </div>
 			    </div>  
 			    <div class="slidedivider" id="divider">
 					<div class="drag-tip">
 				    <div class="arrow"></div>
-				    <span>拖动我</span>
+				    <span>拖动我开始探索！</span>
 				  </div>
 			    </div>  
 			</div>
-			<div class="slidecontainer" style="position: absolute; top: 0;width: 100%; height: 100%; background-image:linear-gradient(to right, rgba(0,0,0,1),rgba(0,0,0,0.2),rgba(0,0,0,0),rgba(0,0,0,0.2),rgba(0,0,0,1.0)),linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0.6),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0.66),rgba(0,0,0,1.0));pointer-events: none">
+			<div class="slidecontainer" style="position: absolute; top: 0;width: 100%; height: 100%; background-image:linear-gradient(to right, rgba(0,0,0,1),rgba(0,0,0,0.1),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0.1),rgba(0,0,0,1.0)),linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0.6),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0.66),rgba(0,0,0,1.0));pointer-events: none;">
 				<div class="divCom" style="position: absolute; top: 0;width: 100%;  height: 100%; background-image: linear-gradient(...);pointer-events: none;display: flex;justify-content: center;text-align: center;">
-					<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);color:  rgb(115, 115,225); font-family: 'kaiTi';"> 欢迎来自全世界的研究者加入课题组！</h2>
-				</div>
-				<div class="divCom" style="position: absolute; top: 0;width: 100%;  height: 100%; background-image: linear-gradient(...);pointer-events: none;display: flex;align-items: center;justify-content: center;text-align: center;">
-					<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);  font-size: clamp(1.5rem, 4vw + 1rem, 3rem);"> 探索分子世界的奥秘！</h2>
+					<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);color:  rgb(115, 115,225); font-family: 'kaiTi';"> 欢迎加入课题组一起探索超分辨显微世界！</h2>
 				</div>
 			</div>
 		</div>
@@ -288,7 +349,7 @@
 		background-repeat:no-repeat;
 		background-size:cover;">
 
-			<div class="divCom" style="width:100%;display:flex;flex-direction:column;height:auto;">
+			<div class="divCom" style="width:100%;display:flex;flex-direction:column;height:auto;"  id="Education">
 
 				<div class="divCom" style="flex-direction: row-reverse;width:100%;margin:0;height:auto;" >
 					<div style="width:6%;margin-top:0;" ></div>
@@ -349,7 +410,7 @@
 					</div>
 				</div>
 
-				<div class="divCom" style="flex-direction: row-reverse;width:100%;margin:0;height:auto;"  id="Education">
+				<div class="divCom" style="flex-direction: row-reverse;width:100%;margin:0;height:auto;">
 					<div style="width:6%;margin-top:0;" ></div>
 					<div style="width:220px;padding-top:30px;margin-top:0;">
 						<img src="/Resources/PhotoYing.jpg" class="ImgCom"/>
@@ -463,6 +524,19 @@
 			</div>
 		</div>
 
+		<div class="divCom" style="flex-direction: row;padding-left:100px;background-image:linear-gradient(to left, rgba(0,0,0,0),rgba(0,0,0,0.8),rgba(0,0,0,1.0)),
+		linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,1.0));
+		background-repeat:no-repeat;
+		background-size:cover;" id="Softwares">
+			<div style="width:6%"></div>
+			<div>
+				<h2 class="Wtext">计算工具</h2>
+				<p class="Wtext">我们开发了一系列面向单分子荧光的解析算法和软件，构筑了单分子分析平台。</p>
+				<p class="Wtext">部分算法已经开源，<a href="https://github.com/yezhiwei90/ReconstructionTest" target="_blank" class="lliink" style="padding:0;display:inline">详情可点击</a></p>
+				<div class="dynamic-stack" id="stackContainer"></div>
+			</div>
+		</div>
+
 		<div class="divCom" style="flex-direction: row-reverse;background-image:linear-gradient(to right, rgba(0,0,0,0),rgba(0,0,0,0.8),rgba(0,0,0,1.0)),
 		linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,1.0)),
 		url('./Resources/Microscopy-01.jpg');
@@ -470,7 +544,7 @@
 		background-size:cover;" id="Conferences">
 			<div style="width:6%"></div>
 			<div>
-				<h2 class="Wtext">会议摘要</h2>
+				<h2 class="Wtext">会议</h2>
 				<table class="TableCom">
 					<tr><td><p style="margin: 2px;">1.Advancement of Rhodamine Fluorophore for localization based Super-resolution imaging, 6th International Conference on Molecular Sensors and Molecular Logic Gates，2018.06.&nbsp;&nbsp;<a href="./Resources/Conf1.jpg" target="_blank" class="lliink" style="color:rgb(255, 99, 71);padding:0;display:inline">摘要文档</a></p></td></tr>
 					<tr><td><p style="margin: 2px;">2.超分辨成像染料单分子荧光调控, 第七届荧光探针与成像青年学者研讨会, 2024.04.&nbsp;&nbsp;<a href="./Resources/Conf2.pdf" target="_blank" class="lliink" style="color:rgb(255, 99, 71);padding:0;display:inline">摘要文档</a></p></td></tr></p></td></tr>
@@ -500,6 +574,76 @@
 		</div>
 
 		<script>  
+			// The code to display softwares
+			const stackimages = [
+				{src: './Resources/Soft/1.png',
+    			caption: 'Spectral Analyzer<br>量子产率、摩尔消光系数、pka计算'},
+    			{
+					src: './Resources/Soft/2.png',
+    				caption: '光谱分析数据界面<br>颜色、线型设置'
+    			},
+				{
+					src: './Resources/Soft/3.PNG',
+    				caption: 'Single-molecule analyzer<br>单分子荧光光物理性质解析'
+    			},
+    			{
+					src: './Resources/Soft/4.png',
+    				caption: 'Light Carver<br>分子定位解析'
+    			},
+    			{
+					src: './Resources/Soft/5.png',
+    				caption: 'Render<br>定位数据后处理及重建'
+    			},
+    			{
+					src: './Resources/Soft/6.png',
+    				caption: 'Single-molecule simulator<br>单分子荧光光物理模拟器'
+    			},
+    			{
+					src: './Resources/Soft/7.png',
+    				caption: 'Single-molecule track<br>单分子运动追踪、解析'
+    			},
+			  // 添加更多图片路径...
+			];
+
+			const stackimgcontainer = document.getElementById('stackContainer');
+
+			stackimages.forEach((item, index) => {
+				  // 创建卡片容器
+				  const card = document.createElement('div');
+				  card.className = 'stack-card';
+				  card.style.cssText = `
+				    z-index: ${index};
+				  `;
+
+			  const imgElem = document.createElement('img');
+			  imgElem.src = item.src;
+			  imgElem.className = 'dynamic-stacked';
+			  imgElem.style.cssText = `
+			  	height:130px;
+			  `;
+			  
+  
+			  // 添加文字说明
+			  const caption = document.createElement('div');
+			  caption.className = 'image-caption';
+			  caption.innerHTML = item.caption;
+
+			  // 组装元素
+			  card.appendChild(imgElem);
+			  card.appendChild(caption);
+			  stackimgcontainer.appendChild(card);
+
+	   		 // Add hover event listeners  
+	        imgElem.addEventListener('mouseenter', function() {  
+	            card.style.zIndex = 999; // Change z-index on hover  
+	        });  
+
+	        imgElem.addEventListener('mouseleave', function() {  
+	            card.style.zIndex = index; // Reset z-index on mouse leave  
+	        });  
+	        stackimgcontainer.appendChild(card);
+			});
+
 			  window.addEventListener('DOMContentLoaded', () => {
 			    const divider = document.getElementById('divider');
 			    const image1 = document.getElementById('image1');
