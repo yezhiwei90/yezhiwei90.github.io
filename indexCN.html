@@ -3,6 +3,112 @@
 <head>
 	<title>荧光成像课题组</title>
 	<style type="text/css">
+        ::selection {  
+            background: transparent; /* Make the selection background transparent */  
+            color: inherit; /* Keep the text color the same as the original text */  
+        }  
+        
+        /* For Firefox */  
+        ::-moz-selection {  
+            background: transparent; /* Make the selection background transparent */  
+            color: inherit; /* Keep the text color the same as the original text */  
+        } 
+        .slidecontainer {  
+            position: relative;  
+            width: 100%; /* Adjust the width as needed */  
+            overflow: hidden;  
+            height: auto; /* Set the height for the images */  
+        }  
+        .slideimage {  
+            width: 100%;  
+            height: auto;  
+            position: absolute;  
+            overflow:hidden
+            top: 0;  
+            /* transition: opacity 0.5s ease; /* Transition for smooth fading */  
+            /* clip-path: inset(0% 0% 0% 0%); /* Top, Right, Bottom, Left */  
+            object-fit: cover; /* Crop the image to fit */  
+        }  
+        .slideimage img {  
+            width: 100%;  
+            height: auto;  
+            display: block;
+            object-fit: cover; /* Ensure images cover their respective div */  
+        }  
+        .slidedivider {  
+            position: absolute;  
+            background-color: rgb(180,180,180); /* Color of the divider */  
+            cursor: ew-resize; /* To indicate draggable */  
+            width: 10px; /* Width of the slider */  
+            height: 100%;  
+            left: 100%; /* Start at the center */  
+
+        }  
+        /* The code to display "drag me" */
+          /* 提示元素样式 */
+						  .drag-tip {
+						    position: absolute;
+						    left: 50%;
+						    bottom: 50%;
+						    transform: translateX(-50%);
+						    opacity: 0;
+						    transition: opacity 0.3s, transform 0.3s;
+						    pointer-events: none;
+						    white-space: nowrap;
+						    display: flex;
+						    flex-direction: column;
+						    align-items: center;
+						    gap: 8px;
+						  }
+
+						  .drag-tip span {
+						    background: rgba(0,0,0,0.7);
+						    color: white;
+						    padding: 4px 8px;
+						    border-radius: 4px;
+						    font-size: clamp(0.5rem, 0.8vw + 0.5rem, 4rem);
+						  }
+
+						  /* 弯曲箭头动画 */
+						  .arrow {
+						    width: 24px;
+						    height: 24px;
+						    position: relative;
+						    animation: bounce 1.5s infinite;
+						  }
+
+						  .arrow::before,
+						  .arrow::after {
+						    content: '';
+						    position: absolute;
+						    width: 12px;
+						    height: 2px;
+						    background: white;
+						    border-radius: 1px;
+						  }
+
+						  .arrow::before {
+						    left: 0;
+						    top: 50%;
+						    transform: rotate(-45deg) translate(2px, -4px);
+						  }
+
+						  .arrow::after {
+						    right: 0;
+						    top: 50%;
+						    transform: rotate(45deg) translate(-2px, -4px);
+						  }
+
+						  @keyframes bounce {
+						    0%, 100% { transform: translateY(0); }
+						    50% { transform: translateY(-8px); }
+						  }
+
+						  .show-tip .drag-tip {
+						    opacity: 1;
+						    transform: translateX(-50%) translateY(-8px);
+						  }
+
 				.bodyback {
 					margin: 0;
 					padding: 0;
@@ -108,6 +214,7 @@
 	      .TableComRtr{
 	      	text-align: right;
 	      }
+
 	</style>
 </head>
 	<body class="bodyback">
@@ -115,8 +222,6 @@
 
 			<div class="divNorm">
 				<h1 class="Wtext" style="margin:0px;padding:20px;" id="home">欢迎访问超微荧光成像课题组</h1>
-				<p class="Wtext"  style="margin-top:-20px;margin-left:0px;margin-right:0px;margin-bottom:0px;padding:0px;text-align:right;"> <span style="Color: rgb(115, 115,225);">由叶智伟博士和郑莹博士领导</span></p>
-				<h2 class="Wtext"  style="margin:0px;padding:0px;"> 欢迎来自全世界的研究者加入课题组！</h2>
 			</div>
 			<div class="divnav" style="display:flex;align-items:around;background-color:rgba(0,0,21,0.8)">
 				<!--navigation bar -->
@@ -154,7 +259,30 @@
 				</div>
 				<div style="width:7%"></div>
 				</div>
-
+		<div style="position: relative;">
+			<div class="slidecontainer" style="position: relative;width:100%;display:flex;flex-direction:column;height:auto;">
+			    <div class="slideimage" id="image1" alt="Image 1" style="position: relative;margin:0px;padding:0px;width:100%;;">  
+			        <img src="./Resources/ZWide-Field-RGB-CLP.jpg" alt="Image 1">  
+			    </div>  
+			    <div class="slideimage" id="image2" alt="Image 2" style="position: absolute;top: 0;left: 0;margin:0px;padding:0px;width:100%;"> 
+			        <img src="./Resources/ZindexedSR-CLP.jpg" alt="Image 2">  
+			    </div>  
+			    <div class="slidedivider" id="divider">
+					<div class="drag-tip">
+				    <div class="arrow"></div>
+				    <span>拖动我</span>
+				  </div>
+			    </div>  
+			</div>
+			<div class="slidecontainer" style="position: absolute; top: 0;width: 100%; height: 100%; background-image:linear-gradient(to right, rgba(0,0,0,1),rgba(0,0,0,0.2),rgba(0,0,0,0),rgba(0,0,0,0.2),rgba(0,0,0,1.0)),linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0.6),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0.66),rgba(0,0,0,1.0));pointer-events: none">
+				<div class="divCom" style="position: absolute; top: 0;width: 100%;  height: 100%; background-image: linear-gradient(...);pointer-events: none;display: flex;justify-content: center;text-align: center;">
+					<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);color:  rgb(115, 115,225); font-family: 'kaiTi';"> 欢迎来自全世界的研究者加入课题组！</h2>
+				</div>
+				<div class="divCom" style="position: absolute; top: 0;width: 100%;  height: 100%; background-image: linear-gradient(...);pointer-events: none;display: flex;align-items: center;justify-content: center;text-align: center;">
+					<h2 class="Wtext"  style="margin:0px;padding:0px;text-shadow: 0 2px 4px rgba(0,0,0,0.5);  font-size: clamp(1.5rem, 4vw + 1rem, 3rem);"> 探索分子世界的奥秘！</h2>
+				</div>
+			</div>
+		</div>
 		<div style="background-image:linear-gradient(to right, rgba(0,0,0,0),rgba(0,0,0,0.8),rgba(0,0,0,1.0)),linear-gradient(to bottom,rgba(0,0,0,1.0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,1.0)),
 		url('/Resources/ZindexedSR-Clip.jpg');
 		background-repeat:no-repeat;
@@ -370,5 +498,124 @@
 		<div classs="divCom" style="flex-direction: row;align-items:center;text-align: center;height:auto;">
 			<div><p class="Wtext">Copyright 2025 Ye Zhiwei. All rights reserved</p></div>
 		</div>
+
+		<script>  
+			  window.addEventListener('DOMContentLoaded', () => {
+			    const divider = document.getElementById('divider');
+			    const image1 = document.getElementById('image1');
+			    const image2 = document.getElementById('image2');
+			    const container = document.querySelector('.slidecontainer'); // 需要监听的容器
+			      // 新增元素引用
+				const dragTip = document.querySelector('.drag-tip');
+				let tipTimeout = null;
+
+			    // 动画状态控制
+				let isAnimating = false;
+				let hasAnimated = false;
+			    let position = 100;
+
+			    // 初始状态：分隔线在右侧，图片完全隐藏
+			    const resetElements = () => {
+				    divider.style.left = `100%`;
+				    image1.style.clipPath = `inset(0% 0% 0% 0%)`;
+				    image2.style.clipPath = `inset(0% 0% 0% 100%)`;
+				};
+				resetElements();
+
+				  // Intersection Observer 配置
+				  const observer = new IntersectionObserver((entries) => {
+				    entries.forEach(entry => {
+				      if (entry.isIntersecting) {
+				        // 元素进入视口且未执行过动画
+				        if (!hasAnimated) {
+				          startAnimation();
+				          hasAnimated = true;
+				        }
+				      } else {
+				        // 元素离开视口时重置状态
+				        dragTip.parentElement.classList.remove('show-tip');
+				        clearTimeout(tipTimeout);
+				        resetElements();
+				        hasAnimated = false;
+				      }
+				    });
+				  }, {
+				    threshold: 0.5, // 当50%元素可见时触发
+				    rootMargin: '0px'
+				  });
+
+				// 开始监听目标容器
+				observer.observe(container);
+
+				// 动画函数
+				const startAnimation = () => {
+					if (isAnimating) return;
+					isAnimating = true;
+
+					const duration = 2000;
+					const startTime = Date.now();
+					const startPosition = 100;
+
+					const animateFrame = () => {
+					  const elapsed = Date.now() - startTime;
+					  const progress = Math.min(elapsed / duration, 1);
+					  const position = startPosition - progress * 75; // 100% -> 25%
+
+					  divider.style.left = `${position}%`;
+					  image1.style.clipPath = `inset(0% ${100 - position}% 0% 0%)`;
+					  image2.style.clipPath = `inset(0% 0% 0% ${position}%)`;
+
+					  if (progress < 1) {
+					    requestAnimationFrame(animateFrame);
+					  } else {
+					    isAnimating = false;
+					    showDragTip(); // 显示提示
+					    bindDragEvent(); // 绑定拖拽交互
+					  }
+					};
+
+				requestAnimationFrame(animateFrame);
+				};
+
+				 // 显示提示
+				  const showDragTip = () => {
+				    dragTip.parentElement.classList.add('show-tip');
+				    clearTimeout(tipTimeout);
+				    tipTimeout = setTimeout(() => {
+				      dragTip.parentElement.classList.remove('show-tip');
+				    }, 5000); // 5秒后隐藏
+				  };
+
+
+			    // 绑定拖拽交互（示例代码）
+			    const bindDragEvent = () => {
+			      let isDragging = false;
+
+			      divider.addEventListener('mousedown', () => {
+			      	dragTip.parentElement.classList.remove('show-tip'); // 拖拽时立即隐藏
+			        isDragging = true;
+			        document.addEventListener('mousemove', onDrag);
+			        document.addEventListener('mouseup', () => {
+			          isDragging = false;
+			          document.removeEventListener('mousemove', onDrag);
+			        });
+			      });
+
+			      const onDrag = (e) => {
+			        if (!isDragging) return;
+			        const container = divider.parentElement;
+			        const rect = container.getBoundingClientRect();
+			        const x = e.clientX - rect.left;
+			        position = (x / rect.width) * 100;
+			        
+			        // 实时更新
+			        divider.style.left = `${position}%`;
+			        image1.style.clipPath = `inset(0% ${100-position}% 0% 0%)`;
+			        image2.style.clipPath = `inset(0% 0% 0% ${position}%)`;
+			      };
+			    };
+
+			  	});
+		</script>  
 	</body>
 </html>
