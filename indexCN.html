@@ -118,7 +118,6 @@
 			  			  gap:calc(1% + 5px);
 			            display: flex; 
 			            flex-direction: row; 
-			              overflow: hidden; /* 允许横向滚动 */
 						  -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
 						  flex-wrap: nowrap; /* 禁止换行 */
 						  scrollbar-width: none; /* Firefox隐藏滚动条 */
@@ -147,8 +146,6 @@
 						  display: flex; /* Use flexbox for vertical stacking */  
 						  flex-direction: column; /* Stack children vertically */  
 						  align-items: center; /* Center align content */  
-						  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              					transform 0.3s linear; /* 添加transform过渡 */
 						}
 
 						/* 文字说明容器 */
@@ -617,7 +614,12 @@
 			];
 
 			const stackimgcontainer = document.getElementById('stackContainer');
+			stackimgcontainer.style.overflow = 'hidden'; /* 允许横向滚动 */
 
+			// 为每个 card 定义一个定时器 ID 存储变量
+			let globalleaveTimer = null;
+			let globalleaveTimer2 = null;
+			let hoverCount = 0; // 当前悬停的卡片数量
 			stackimages.forEach((item, index) => {
 				  // 创建卡片容器
 				  const card = document.createElement('div');
@@ -645,17 +647,32 @@
 			  stackimgcontainer.appendChild(card);
 
 	   		 // Add hover event listeners  
-	        imgElem.addEventListener('mouseenter', function() {  
+	        card.addEventListener('mouseenter', function() {  
+	        	clearTimeout(globalleaveTimer2);
+	        	hoverCount++; // 增加悬停计数
 	            card.style.zIndex = 999; // Change z-index on hover  
 	            stackimgcontainer.style.overflow = 'visible';
 	        });  
 
-	        imgElem.addEventListener('mouseleave', function() {  
-	            card.style.zIndex = index; // Reset z-index on mouse leave  
-	            stackimgcontainer.style.overflow = 'scroll';
+	        card.addEventListener('mouseleave', function() {  
+	        	hoverCount--; // 减少悬停计数
+		        	clearTimeout(globalleaveTimer);
+
+		            globalleaveTimer =  setTimeout(function() {  
+				        card.style.zIndex = index; // Reset z-index on mouse leave  
+			    		}, 300);
+	        	if  (hoverCount === 0) {
+		        	clearTimeout(globalleaveTimer2);
+		            globalleaveTimer2 =  setTimeout(function() {  
+	        		stackimgcontainer.style.overflow = 'hidden';  
+		        	},300);
+		        }
+
 	        });  
+
 	        stackimgcontainer.appendChild(card);
 			});
+
 
 			  window.addEventListener('DOMContentLoaded', () => {
 			    const divider = document.getElementById('divider');
