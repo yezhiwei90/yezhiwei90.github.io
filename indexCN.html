@@ -971,6 +971,7 @@
 				      if(!isScrolling) {
 				        this.classList.add('active');
 				        card.style.zIndex = 999;
+				        imgElem.style.zIndex = 999;
 				        stackimgcontainer.style.overflow = 'visible';
 				      }
 				    }, 200);
@@ -1027,6 +1028,7 @@
 
 	            globalleaveTimer =  setTimeout(function() {  
 			        card.style.zIndex = index; // Reset z-index on mouse leave  
+			        imgElem.style.zIndex = index;
 		    		}, 300);
         	if  (hoverCount === 0) {
 	        	clearTimeout(globalleaveTimer2);
