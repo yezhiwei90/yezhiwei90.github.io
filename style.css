@@ -1,4 +1,4 @@
-.bodyback {
+				.bodyback {
 					margin: 0;
 					padding: 0;
 					border: none;
@@ -67,6 +67,14 @@
 	      	color: white;
 	      	text-decoration: underline;
 	      }
+	      .Wtext{
+	      	color: white;
+	      }
+	      .WSeqtext{
+	      	color: white;
+	      	margin-top: 0px;
+	      	margin-bottom: 10px;
+	      }
 	      .NormalLink {
 	      	display: block;
 	      	color: #FCB4B4;
@@ -77,15 +85,6 @@
 	      	color: #F98585;
 	      	text-decoration: underline;
 	      }
-	      .Wtext{
-	      	color: white;
-	      }
-	      .WSeqtext{
-	      	color: white;
-	      	margin-top: 0px;
-	      	margin-bottom: 10px;
-	      }
-
 	      .ImgCom{
 	      	width: 200px;
 	      	margin: 0 auto;
@@ -104,3 +103,47 @@
 	      .TableComRtr{
 	      	text-align: right;
 	      }
+	      		/* 移动端适配 */
+      			@media (max-width: 768px) {
+				  #stackContainer {
+				    min-height: 400px;
+				    margin: 100px 0;
+				    overflow-x: auto;
+				    scroll-snap-type: x mandatory;
+				    -webkit-overflow-scrolling: touch;
+				  }
+
+				  .stack-card {
+				    flex: 0 0 80%;
+				    scroll-snap-align: start;
+				    margin: 0 10px;
+				  }
+
+				  .dynamic-stacked {
+				    height: 200px !important;
+				  }
+
+				  /* 移动端悬停效果调整 */
+				  .stack-card.active .dynamic-stacked {
+				    transform: scale(1.8);
+				    opacity: 1;
+				    z-index: 999;
+				  }
+
+				  .stack-card.active .image-caption {
+				    opacity: 1;
+				    width: calc(100% * 1.8);
+				    transform: translateX(25%) translateY(80%);
+				    font-size: 1.2em;
+				  }
+
+				  /* 隐藏桌面端hover效果 */
+				  .stack-card:hover .dynamic-stacked {
+				    transform: none;
+				  }
+				  
+				  .stack-card:hover .image-caption {
+				    transform: none;
+				    width: auto;
+				  }
+				}

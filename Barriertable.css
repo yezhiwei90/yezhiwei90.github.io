@@ -1,0 +1,49 @@
+
+/* The table data to display the imaging barrier table*/
+				        .scientific-table {  
+				            font-family: Arial, sans-serif;  
+				            color:rgb(230,230,230);
+				            font-size: 0.9rem;  
+				            line-height: 1.4;  
+				            border-collapse: collapse; /* 防止单元格间的空隙 */  
+				        }  
+				        .scientific-table th, .scientific-table td {  
+				            border: none; /* 去掉默认边框 */  
+				        }  
+		                .scientific-table thead th {  
+						    border-bottom: 2px solid rgb(185,185,185); /* 表头下方的线 */  
+						    border-top: 2px solid rgb(185,185,185);
+						}  
+				        .scientific-table tbody tr:nth-child(odd) {  
+				            background-color: rgb(35,35,35);  /* 隔行换色 */  
+				        }  
+				        .scientific-table tbody tr:last-child td {  
+				            border-bottom: 2px solid rgb(185,185,185); /* 表底的线 */  
+				        }  
+				        .priority-list {  
+				            list-style-type: '- ';  
+				            padding-left: 1.2rem;  
+				        }  
+				        .red-bold {
+				        	font-weight:bold;
+				        	color:rgb(225,75,10);
+				        }
+				        .blue-bold {
+				        	font-weight:bold;
+				        	color:rgb(80,85,200);
+				        }
+				        .orange-bold {
+				        	font-weight:bold;
+				        	color:rgb(225, 145, 10);
+				        }
+				        .purple-bold {
+				        	color:rgb(200,80,180);
+				        	font-weight:bold;
+				        }
+				        .redorange-bold{
+				        	color:rgb(185,180,10);
+				        	fond-weight:bold;
+				        }
+				        .italicfont {
+				        	font-style: italic;
+				        }

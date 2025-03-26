@@ -1,0 +1,66 @@
+
+/* the code to obtain dynamics of softwares*/
+						#stackContainer {
+						  position: relative;
+						  width: 94vw;
+						  min-height: 800px;
+						  margin: 200px 0;
+			  			  position:relative;
+			  			  gap:calc(1% + 5px);
+			            display: flex; 
+			            flex-direction: row; 
+						  -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
+						  flex-wrap: nowrap; /* 禁止换行 */
+						  scrollbar-width: none; /* Firefox隐藏滚动条 */
+						}
+
+						/* 隐藏所有浏览器滚动条 */
+						#stackContainer::-webkit-scrollbar {
+						  display: none;
+						}
+
+						.dynamic-stacked {
+						 position: relative;
+						  filter: drop-shadow(8px 8px 20px rgba(0,0,0,0.2));
+						  opacity: 0.9;
+						  cursor: pointer;
+						  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+						  height:auto;
+						  object-fit: cover
+						}
+
+						/* 新增文字样式 */
+						/* 图片+文字容器 */
+						.stack-card {
+						  position: relative;
+						  scroll-snap-align: center; /* 滚动吸附点 */
+						  display: flex; /* Use flexbox for vertical stacking */  
+						  flex-direction: column; /* Stack children vertically */  
+						  align-items: center; /* Center align content */  
+						}
+
+						/* 文字说明容器 */
+						.image-caption {
+						  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+						  color: white;
+						  padding: 5px 10px 10px;
+						  font-size: 0.8em;
+						  opacity: 0.9;
+						  transition: 
+						    opacity 0.2s,
+						    padding 0.3s;
+						}
+
+						.stack-card:hover .dynamic-stacked {
+							z-index: 999;
+						  transform: 
+						    scale(2.6);
+						  opacity: 1;
+						}
+
+						.stack-card:hover .image-caption {
+						  opacity: 1;
+					    	width: calc(100% * 2.6); /* 与图片缩放比例同步 */
+  							transform: translateX(25%) translateY(150%); /* 保持居中并下移 */
+						  font-size: calc(0.8em * 1.5); /* 文字同步放大 */
+						}
