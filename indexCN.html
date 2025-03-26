@@ -278,7 +278,50 @@
 	      .TableComRtr{
 	      	text-align: right;
 	      }
+	      		/* 移动端适配 */
+      			@media (max-width: 768px) {
+				  #stackContainer {
+				    min-height: 400px;
+				    margin: 100px 0;
+				    overflow-x: auto;
+				    scroll-snap-type: x mandatory;
+				    -webkit-overflow-scrolling: touch;
+				  }
 
+				  .stack-card {
+				    flex: 0 0 80%;
+				    scroll-snap-align: start;
+				    margin: 0 10px;
+				  }
+
+				  .dynamic-stacked {
+				    height: 200px !important;
+				  }
+
+				  /* 移动端悬停效果调整 */
+				  .stack-card.active .dynamic-stacked {
+				    transform: scale(1.8);
+				    opacity: 1;
+				    z-index: 999;
+				  }
+
+				  .stack-card.active .image-caption {
+				    opacity: 1;
+				    width: calc(100% * 1.8);
+				    transform: translateX(25%) translateY(80%);
+				    font-size: 1.2em;
+				  }
+
+				  /* 隐藏桌面端hover效果 */
+				  .stack-card:hover .dynamic-stacked {
+				    transform: none;
+				  }
+				  
+				  .stack-card:hover .image-caption {
+				    transform: none;
+				    width: auto;
+				  }
+				}
 	</style>
 </head>
 	<body class="bodyback">
@@ -582,98 +625,155 @@
 		</div>
 
 		<script>  
-			// The code to display softwares
-			const stackimages = [
-				{src: './Resources/Soft/1.png',
-    			caption: 'Spectral Analyzer<br>量子产率、摩尔消光系数、pka计算'},
-    			{
-					src: './Resources/Soft/2.png',
-    				caption: '光谱分析数据界面<br>颜色、线型设置'
-    			},
-				{
-					src: './Resources/Soft/3.PNG',
-    				caption: 'Single-molecule analyzer<br>单分子荧光光物理性质解析'
-    			},
-    			{
-					src: './Resources/Soft/4.png',
-    				caption: 'Light Carver<br>分子定位解析'
-    			},
-    			{
-					src: './Resources/Soft/5.png',
-    				caption: 'Render<br>定位数据后处理及重建'
-    			},
-    			{
-					src: './Resources/Soft/6.png',
-    				caption: 'Single-molecule simulator<br>单分子荧光光物理模拟器'
-    			},
-    			{
-					src: './Resources/Soft/7.png',
-    				caption: 'Single-molecule track<br>单分子运动追踪、解析'
-    			},
-			  // 添加更多图片路径...
-			];
+		// The code to display softwares
+		const stackimages = [
+			{src: './Resources/Soft/1.png',
+			caption: 'Spectral Analyzer<br>量子产率、摩尔消光系数、pka计算'},
+			{
+				src: './Resources/Soft/2.png',
+				caption: '光谱分析数据界面<br>颜色、线型设置'
+			},
+			{
+				src: './Resources/Soft/3.PNG',
+				caption: 'Single-molecule analyzer<br>单分子荧光光物理性质解析'
+			},
+			{
+				src: './Resources/Soft/4.png',
+				caption: 'Light Carver<br>分子定位解析'
+			},
+			{
+				src: './Resources/Soft/5.png',
+				caption: 'Render<br>定位数据后处理及重建'
+			},
+			{
+				src: './Resources/Soft/6.png',
+				caption: 'Single-molecule simulator<br>单分子荧光光物理模拟器'
+			},
+			{
+				src: './Resources/Soft/7.png',
+				caption: 'Single-molecule track<br>单分子运动追踪、解析'
+			},
+		  // 添加更多图片路径...
+		];
 
-			const stackimgcontainer = document.getElementById('stackContainer');
-			stackimgcontainer.style.overflow = 'hidden'; /* 允许横向滚动 */
+		const stackimgcontainer = document.getElementById('stackContainer');
+		stackimgcontainer.style.overflow = 'hidden'; /* 允许横向滚动 */
 
-			// 为每个 card 定义一个定时器 ID 存储变量
-			let globalleaveTimer = null;
-			let globalleaveTimer2 = null;
-			let hoverCount = 0; // 当前悬停的卡片数量
-			stackimages.forEach((item, index) => {
-				  // 创建卡片容器
-				  const card = document.createElement('div');
-				  card.className = 'stack-card';
-				  card.style.cssText = `
-				    z-index: ${index};
-				  `;
-
-			  const imgElem = document.createElement('img');
-			  imgElem.src = item.src;
-			  imgElem.className = 'dynamic-stacked';
-			  imgElem.style.cssText = `
-			  	height:130px;
+		// 为每个 card 定义一个定时器 ID 存储变量
+		let globalleaveTimer = null;
+		let globalleaveTimer2 = null;
+		let hoverCount = 0; // 当前悬停的卡片数量
+		stackimages.forEach((item, index) => {
+			  // 创建卡片容器
+			  const card = document.createElement('div');
+			  card.className = 'stack-card';
+			  card.style.cssText = `
+			    z-index: ${index};
 			  `;
-			  
-  
-			  // 添加文字说明
-			  const caption = document.createElement('div');
-			  caption.className = 'image-caption';
-			  caption.innerHTML = item.caption;
 
-			  // 组装元素
-			  card.appendChild(imgElem);
-			  card.appendChild(caption);
-			  stackimgcontainer.appendChild(card);
+		  const imgElem = document.createElement('img');
+		  imgElem.src = item.src;
+		  imgElem.className = 'dynamic-stacked';
+		  imgElem.style.cssText = `
+		  	height:130px;
+		  `;
+		  
 
-	   		 // Add hover event listeners  
-	        card.addEventListener('mouseenter', function() {  
+		  // 添加文字说明
+		  const caption = document.createElement('div');
+		  caption.className = 'image-caption';
+		  caption.innerHTML = item.caption;
+
+		  // 组装元素
+		  card.appendChild(imgElem);
+		  card.appendChild(caption);
+		  stackimgcontainer.appendChild(card);
+
+				  // 添加移动端触摸事件
+				  let tapTimer;
+				  let tapStartTime;
+				  let isScrolling = false;
+
+				  // 统一处理触摸开始
+				  card.addEventListener('touchstart', function(e) {
+				    tapStartTime = Date.now();
+				    isScrolling = false;
+				    
+				    // 短按处理
+				    tapTimer = setTimeout(() => {
+				      if(!isScrolling) {
+				        this.classList.add('active');
+				        card.style.zIndex = 999;
+				        stackimgcontainer.style.overflow = 'visible';
+				      }
+				    }, 200);
+				  });
+
+				  // 处理触摸移动（滚动时取消激活）
+				  card.addEventListener('touchmove', function(e) {
+				    isScrolling = true;
+				    clearTimeout(tapTimer);
+				    this.classList.remove('active');
+				  });
+
+				  // 处理触摸结束
+				  card.addEventListener('touchend', function(e) {
+				    clearTimeout(tapTimer);
+				    const tapDuration = Date.now() - tapStartTime;
+				    
+				    // 短按小于500ms时保持激活状态
+				    if(tapDuration < 500 && !isScrolling) {
+				      // 移除其他卡片的激活状态
+				      document.querySelectorAll('.stack-card').forEach(c => {
+				        if(c !== this) c.classList.remove('active');
+				      });
+				    } else {
+				      this.classList.remove('active');
+				    }
+				    
+				    // 重置状态
+				    isScrolling = false;
+				    tapTimer = null;
+				  });
+
+				  // 点击外部区域关闭激活状态
+				  document.addEventListener('touchstart', function(e) {
+				    if(!e.target.closest('.stack-card')) {
+				      document.querySelectorAll('.stack-card').forEach(c => {
+				        c.classList.remove('active');
+				        stackimgcontainer.style.overflow = 'hidden';
+				      });
+				    }
+				  });
+
+   		 // Add hover event listeners  
+        card.addEventListener('mouseenter', function() {  
+        	clearTimeout(globalleaveTimer2);
+        	hoverCount++; // 增加悬停计数
+            card.style.zIndex = 999; // Change z-index on hover  
+            stackimgcontainer.style.overflow = 'visible';
+        });  
+
+        card.addEventListener('mouseleave', function() {  
+        	hoverCount--; // 减少悬停计数
+	        	clearTimeout(globalleaveTimer);
+
+	            globalleaveTimer =  setTimeout(function() {  
+			        card.style.zIndex = index; // Reset z-index on mouse leave  
+		    		}, 300);
+        	if  (hoverCount === 0) {
 	        	clearTimeout(globalleaveTimer2);
-	        	hoverCount++; // 增加悬停计数
-	            card.style.zIndex = 999; // Change z-index on hover  
-	            stackimgcontainer.style.overflow = 'visible';
-	        });  
+	            globalleaveTimer2 =  setTimeout(function() {  
+        		stackimgcontainer.style.overflow = 'hidden';  
+	        	},300);
+	        }
 
-	        card.addEventListener('mouseleave', function() {  
-	        	hoverCount--; // 减少悬停计数
-		        	clearTimeout(globalleaveTimer);
+        });  
 
-		            globalleaveTimer =  setTimeout(function() {  
-				        card.style.zIndex = index; // Reset z-index on mouse leave  
-			    		}, 300);
-	        	if  (hoverCount === 0) {
-		        	clearTimeout(globalleaveTimer2);
-		            globalleaveTimer2 =  setTimeout(function() {  
-	        		stackimgcontainer.style.overflow = 'hidden';  
-		        	},300);
-		        }
+        stackimgcontainer.appendChild(card);
+		});
 
-	        });  
-
-	        stackimgcontainer.appendChild(card);
-			});
-
-
+				// this code add the interactive divider in the main page.
 			  window.addEventListener('DOMContentLoaded', () => {
 			    const divider = document.getElementById('divider');
 			    const image1 = document.getElementById('image1');
@@ -714,7 +814,7 @@
 				      }
 				    });
 				  }, {
-				    threshold: 0.5, // 当50%元素可见时触发
+				    threshold: 0.7, // 当50%元素可见时触发
 				    rootMargin: '0px'
 				  });
 
@@ -761,32 +861,70 @@
 				  };
 
 
-			    // 绑定拖拽交互（示例代码）
+			    // 绑定拖拽交互
 			    const bindDragEvent = () => {
-			      let isDragging = false;
+					// 修改后的触摸/鼠标通用代码
+					let isDragging = false;
+					let startX = 0;
+					let currentX = 0;
 
-			      divider.addEventListener('mousedown', () => {
-			      	dragTip.parentElement.classList.remove('show-tip'); // 拖拽时立即隐藏
-			        isDragging = true;
-			        document.addEventListener('mousemove', onDrag);
-			        document.addEventListener('mouseup', () => {
-			          isDragging = false;
-			          document.removeEventListener('mousemove', onDrag);
-			        });
-			      });
+					// 统一处理拖动开始
+					function startDrag(e) {
+					    e.preventDefault();
+					    isDragging = true;
+					    
+					    // 获取初始位置（支持触摸事件）
+					    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+					    startX = clientX;
+					    currentX = clientX;
 
-			      const onDrag = (e) => {
-			        if (!isDragging) return;
-			        const container = divider.parentElement;
-			        const rect = container.getBoundingClientRect();
-			        const x = e.clientX - rect.left;
-			        position = (x / rect.width) * 100;
-			        
-			        // 实时更新
-			        divider.style.left = `${position}%`;
-			        image1.style.clipPath = `inset(0% ${100-position}% 0% 0%)`;
-			        image2.style.clipPath = `inset(0% 0% 0% ${position}%)`;
-			      };
+					    // 添加事件监听
+					    document.addEventListener('mousemove', onDrag);
+					    document.addEventListener('touchmove', onDrag, { passive: false });
+					    document.addEventListener('mouseup', endDrag);
+					    document.addEventListener('touchend', endDrag);
+					}
+
+					// 统一处理拖动过程
+					function onDrag(e) {
+					    if (!isDragging) return;
+					    e.preventDefault();
+
+					    // 获取当前位置（支持触摸事件）
+					    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+					    currentX = clientX;
+
+					    // 计算容器位置和宽度
+					    const container = divider.parentElement;
+					    const rect = container.getBoundingClientRect();
+					    
+					    // 计算新位置（限制在0-100%之间）
+					    const deltaX = currentX - startX;
+					    const newPosition = (clientX - rect.left) / rect.width * 100;
+					    position = Math.min(Math.max(newPosition, 0), 100);
+
+					    // 更新UI
+					    divider.style.left = `${position}%`;
+					    image1.style.clipPath = `inset(0% ${100 - position}% 0% 0%)`;
+					    image2.style.clipPath = `inset(0% 0% 0% ${position}%)`;
+
+					    // 更新起始位置以实现连续拖动
+					    startX = clientX;
+					}
+
+					// 统一处理拖动结束
+					function endDrag() {
+					    isDragging = false;
+					    document.removeEventListener('mousemove', onDrag);
+					    document.removeEventListener('touchmove', onDrag);
+					    document.removeEventListener('mouseup', endDrag);
+					    document.removeEventListener('touchend', endDrag);
+					}
+
+					// 事件监听（同时支持触摸和鼠标）
+					divider.addEventListener('mousedown', startDrag);
+					divider.addEventListener('touchstart', startDrag);
+
 			    };
 
 			  	});
