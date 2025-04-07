@@ -40,7 +40,7 @@
 				      }
 				    });
 				  }, {
-				    threshold: 0.7, // 当50%元素可见时触发
+				    threshold: 0.4, // 当50%元素可见时触发
 				    rootMargin: '0px'
 				  });
 
