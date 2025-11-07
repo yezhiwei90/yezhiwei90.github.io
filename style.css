@@ -147,3 +147,25 @@
 				    width: auto;
 				  }
 				}
+		.TableCom .Portfoli_paper { position: relative; display: inline-block; }
+		.TableCom .Portfoli_paper .Portfoli_desc {
+		  position: absolute;
+		  left: 0; top: 100%;
+		  background: rgba(0,0,0,0.9);
+		  color: rgb(120,180,230);
+		  padding: 8px 0px;
+		  border-radius: 0px;
+		  max-width: 50rem;
+		  line-height: 1.5;
+		  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+		  white-space: normal;
+		  z-index: 10;
+
+		  opacity: 0; visibility: hidden; transition: opacity .18s ease;
+		}
+		.TableCom .Portfoli_paper:hover .Portfoli_desc,
+		.TableCom .Portfoli_paper:focus-within .Portfoli_desc { opacity: 1; visibility: visible; }
+		.TableCom .Portfoli_paper .Portfoli_desc::before {
+		  content: ""; position: absolute; top: -6px; left: 12px;
+		  border: 6px solid transparent; border-bottom-color: rgba(0,0,0,0.9);
+		}
